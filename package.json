@@ -9,5 +9,9 @@
   },
   "devDependencies": {
     "eslint": "^8.39.0"
+  },
+  "scripts": {
+    "deploy": "node src/deploy_commands.js",
+    "start" : "node src/main.js"
   }
 }
