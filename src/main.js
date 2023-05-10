@@ -20,6 +20,7 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 // 生成機器人的實體
 
 client.commands = new Collection();
+client.cooldowns = new Collection();
 // 儲存指令的實體
 
 const foldersPath = path.join(__dirname, 'commands');
