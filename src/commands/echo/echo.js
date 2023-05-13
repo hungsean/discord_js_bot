@@ -1,4 +1,5 @@
-const { SlashCommandBuilder, ChannelType } = require('discord.js');
+const { SlashCommandBuilder } = require('discord.js');
+// const {ChannelType} = require('discord.js');
 
 
 module.exports = {
@@ -10,30 +11,31 @@ module.exports = {
 				.setName('input')
 				.setDescription('The input to echo back')
 				.setRequired(true)
-			)
-		.addStringOption(option =>
-				option
-					.setName('type')
-					.setRequired(true)
-					.addChoices(
-						{ name: 'once', value: 'once' },
-						{ name: 'twice', value: 'twice' },
-					)
 		)
-		.addChannelOption(option =>
-                option
-                    .setName('channel')
-                    .setDescription('The channel to echo into')
-					.addChannelTypes(ChannelType.GuildText)
-            )
+		.addStringOption(option =>
+			option
+				.setName('type')
+				.setDescription('which type to choose')
+				.setRequired(true)
+				.addChoices(
+					{ name: 'once', value: 'once' },
+					{ name: 'twice', value: 'twice' },
+				)
+		)
+		// .addChannelOption(option =>
+        //         option
+        //             .setName('channel')
+        //             .setDescription('The channel to echo into')
+		// 			.addChannelTypes(ChannelType.GuildText)
+        //     )
         .addBooleanOption(option =>
-                option
-                    .setName('ephemeral')
-                    .setDescription('Whetheo or nor the echo should be ephemeral')
-            ),
+			option
+				.setName('ephemeral')
+				.setDescription('Whetheo or nor the echo should be ephemeral')
+		),
 	async execute(interaction) {
 		const input = interaction.options.getString('input', true);
-		const type = interaction.options.getString('type', true);
+		const type = interaction.options.getString('type', true) ?? 'once';
 		const ephemeral = interaction.options.getBoolean('ephemeral', false);
 		// const channel = interaction.options.getChannel('channel', false);
 		if (type == 'once')
@@ -42,8 +44,7 @@ module.exports = {
 		}
 		else if (type == 'twice')
 		{
-			await interaction.reply({ content: input, ephemeral: ephemeral });
-			await interaction.reply({ content: input, ephemeral: ephemeral });
+			await interaction.reply({ content: input + '\n' + input, ephemeral: ephemeral });
 		}
 		else
 		{
