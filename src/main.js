@@ -21,19 +21,14 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 client.commands = new Collection();
 client.cooldowns = new Collection();
-// 儲存指令的實體
 
 const foldersPath = path.join(__dirname, 'commands');
-// 讀取commands資料夾變成一個實體
-// __dirname: 目前資料夾的根目錄
 const commandFolders = fs.readdirSync(foldersPath);
-// 將flodersPath裡的資料夾變成一個字典
 
 for (const folder of commandFolders) {
 	const commandsPath = path.join(foldersPath, folder); // 將指令的資料夾變成一個物件
-	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js')); // 掃描資料夾底下的.js然後放進去物件裡
+	const commandFiles = fs.readdirSync(commandsPath).filter(file => file === 'index.js'); // 掃描資料夾底下的.js然後放進去物件裡
 	for (const file of commandFiles) {
-		// 將每個.js在確認有data和execute後 將指令裝進去commands裡面
 		const filePath = path.join(commandsPath, file);
 		const command = require(filePath);
 		if ('data' in command && 'execute' in command) {
