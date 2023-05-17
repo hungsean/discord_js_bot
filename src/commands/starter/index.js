@@ -1,5 +1,7 @@
 const { StringSelectMenuBuilder, StringSelectMenuOptionBuilder, SlashCommandBuilder, ActionRowBuilder } = require('discord.js');
-const { UserSelectMenuBuilder } = require('discord.js');
+// const { UserSelectMenuBuilder } = require('discord.js');
+const { ComponentType } = require('discord.js');
+
 module.exports = {
 	data: new SlashCommandBuilder()
         .setName('starter')
@@ -28,27 +30,32 @@ module.exports = {
 					.setDescription('The Water-type Tiny Turtle Pokémon.')
 					.setValue('squirtle'),
 			);
-        const userSelect = new UserSelectMenuBuilder()
-            .setCustomId('users')
-            .setPlaceholder('Select mutiple users')
-            .setMinValues(1)
-			.setMaxValues(2);
+        // const userSelect = new UserSelectMenuBuilder()
+        //     .setCustomId('users')
+        //     .setPlaceholder('Select mutiple users')
+        //     .setMinValues(1)
+		// 	.setMaxValues(2);
 
 
         const selectRow = new ActionRowBuilder()
 			.addComponents(select);
 
-		const userRow = new ActionRowBuilder()
-            .addComponents(userSelect);
+		// const userRow = new ActionRowBuilder()
+        //     .addComponents(userSelect);
 
-		await interaction.reply({
+		const response = await interaction.reply({
 			content: 'Choose your starter!',
 			components: [selectRow],
-		},
-		{
-			content: 'user',
-			components: [userRow],
-		}
-		);
+			ephemeral: true,
+		});
+
+		const collector = response.createMessageComponentCollector({ componentType: ComponentType.StringSelect, time: 3_600_000 });
+		console.log('collector complete');
+
+		collector.on('collect', async i =>{
+			console.log('collector into');
+			const selection = i.values[0];
+			await i.reply(`${i.user} has selected ${selection}!`);
+		});
 	},
 };
