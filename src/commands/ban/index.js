@@ -5,38 +5,17 @@ const { ActionRowBuilder } = require('discord.js');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ban')
-		.setDescription('Select a member and ban them or unban.')
-		.addSubcommand(subcommand =>
-			subcommand
-				.setName('unban')
-				.setDescription('Select a member and unban them.')
-				.addUserOption(option =>
-					option
-						.setName('target')
-						.setDescription('The member to ban or unban')
-						.setRequired(true)
-				)
-				.addStringOption(option =>
-					option
-						.setName('reason')
-						.setDescription('The reason for banning')
-				)
-			)
-		.addSubcommand(subcommand =>
-			subcommand
-				.setName('ban')
-				.setDescription('Select a member and unban them.')
-				.addUserOption(option =>
-					option
-						.setName('target')
-						.setDescription('The member to ban or unban')
-						.setRequired(true)
-				)
-				.addStringOption(option =>
-					option
-						.setName('reason')
-						.setDescription('The reason for banning')
-				)
+		.setDescription('Select a member and unban them.')
+		.addUserOption(option =>
+			option
+				.setName('target')
+				.setDescription('The member to ban or unban')
+				.setRequired(true)
+		)
+		.addStringOption(option =>
+			option
+				.setName('reason')
+				.setDescription('The reason for banning')
 		)
 		.setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
 		.setDMPermission(false),
@@ -59,41 +38,30 @@ module.exports = {
 		const row = new ActionRowBuilder()
 			.addComponents(cancel, confirm);
 
+		const response = await interaction.reply({
+			content: `Are you sure you want to ban ${target} for reason: ${reason}?`,
+			components: [row],
+		});
 
-		if (interaction.options.getSubcommand() === 'ban')
+		const collectorFilter = i => i.user.id === interaction.user.id;
+
+		try
 		{
-			const response = await interaction.reply({
-				content: `Are you sure you want to ban ${target} for reason: ${reason}?`,
-				components: [row],
-			});
+			const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 60000 });
 
-			const collectorFilter = i => i.user.id === interaction.user.id;
-
-			try
+			if (confirmation.customId === 'confirm')
 			{
-				const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 60000 });
-
-				if (confirmation.costomId === 'comfirm')
-				{
-					await interaction.guild.members.ban(target);
-					await confirmation.update({ content: `${target.username} has been banned for reason: ${reason}`, components: [] });
-				}
-				else if (confirmation.costomId === 'cancel')
-				{
-					await confirmation.update({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
-				}
+				await interaction.guild.members.ban(target);
+				await confirmation.update({ content: `${target.username} has been banned for reason: ${reason}`, components: [] });
 			}
-			catch (e)
+			else if (confirmation.customId === 'cancel')
 			{
-				await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
+				await confirmation.update({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
 			}
-			// await interaction.editReply(`Banning ${target.username} for reason: ${reason}`);
-			// await interaction.guild.members.ban(target);
 		}
-		else if (interaction.options.getSubcommand() === 'unban')
+		catch (e)
 		{
-			await interaction.reply(`Unbanning ${target.username} for reason: ${reason}`);
-			await interaction.guild.members.unban(target);
+			await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
 		}
     },
 };
