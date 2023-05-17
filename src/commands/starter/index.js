@@ -28,20 +28,27 @@ module.exports = {
 					.setDescription('The Water-type Tiny Turtle Pokémon.')
 					.setValue('squirtle'),
 			);
-        // const userSelect = new UserSelectMenuBuilder()
-        //     .setCustomId('users')
-        //     .setPlaceholder('Select mutiple users')
-        //     .setMinValues(1)
-		// 	.setMaxValues(2);
+        const userSelect = new UserSelectMenuBuilder()
+            .setCustomId('users')
+            .setPlaceholder('Select mutiple users')
+            .setMinValues(1)
+			.setMaxValues(2);
 
 
-        const row = new ActionRowBuilder()
+        const selectRow = new ActionRowBuilder()
 			.addComponents(select);
-            // .addComponents(userSelect);
+
+		const userRow = new ActionRowBuilder()
+            .addComponents(userSelect);
 
 		await interaction.reply({
 			content: 'Choose your starter!',
-			components: [row],
-		});
+			components: [selectRow],
+		},
+		{
+			content: 'user',
+			components: [userRow],
+		}
+		);
 	},
 };
