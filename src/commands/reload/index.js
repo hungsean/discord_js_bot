@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
+const { collection2array } = require('../reload/function.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -7,7 +8,26 @@ module.exports = {
 		.addStringOption(option =>
 			option.setName('command')
 				.setDescription('The command to reload.')
-				.setRequired(true)),
+				.setRequired(true)
+				.setAutocomplete(true)
+		),
+	async autocomplete(interaction) {
+		const focusedOption = interaction.options.getFocused(true);
+		const commands = collection2array(interaction.client.commands);
+		let choices;
+
+		if (focusedOption.name === 'command') {
+			choices = commands;
+			console.log(commands);
+		}
+
+		const filtered = choices.filter(choice => choice.startsWith(focusedOption.value));
+		await interaction.respond(
+			filtered.map(choice => ({ name: choice, value: choice })),
+		);
+	},
+
+
 	async execute(interaction) {
 		const commandName = interaction.options.getString('command', true).toLowerCase();
 		const command = interaction.client.commands.get(commandName);
