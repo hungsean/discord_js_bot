@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { collection2array } = require('../reload/function.js');
+const { collection2array } = require('./function.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -18,7 +18,6 @@ module.exports = {
 
 		if (focusedOption.name === 'command') {
 			choices = commands;
-			console.log(commands);
 		}
 
 		const filtered = choices.filter(choice => choice.startsWith(focusedOption.value));

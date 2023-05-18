@@ -39,7 +39,7 @@ module.exports = {
 			.addComponents(cancel, confirm);
 
 		const response = await interaction.reply({
-			content: `Are you sure you want to ban ${target} for reason: ${reason}?`,
+			content: `Are you sure you want to ban ${target} for reason: ${reason}?${interaction.user}`,
 			components: [row],
 		});
 
