@@ -44,7 +44,7 @@ module.exports = {
 				console.error(error);
 			}
 		}
-		else if (interaction.isAutocomplete())
+		if (interaction.isAutocomplete())
 		{
 			const command = interaction.client.commands.get(interaction.commandName);
 
