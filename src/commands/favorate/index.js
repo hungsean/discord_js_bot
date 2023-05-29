@@ -3,17 +3,17 @@ const { ModalBuilder, ActionRowBuilder } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('favorate')
-		.setDescription('Input favorate things.'),
+		.setName('favorite')
+		.setDescription('Input favorite things.'),
 	async execute(interaction) {
 		const modal = new ModalBuilder()
             .setCustomId('modal')
-            .setTitle('Favorate Things');
+            .setTitle('Favorite Things');
 
         const favorateColor = new TextInputBuilder()
-            .setCustomId('favorateColor')
-            .setLabel('Favorate Color')
-            .setPlaceholder('Input your favorate color.')
+            .setCustomId('favoriteColor')
+            .setLabel('Favorite Color')
+            .setPlaceholder('Input your favorite color.')
             .setRequired(true)
             .setStyle(TextInputStyle.Short);
 
@@ -33,14 +33,11 @@ module.exports = {
         await interaction.showModal(modal);
 
         const filter = (interaction) => interaction.customId === 'modal';
-        await interaction.awaitModalSubmit({ filter, time: 15_000 })
-            .then(interaction => {
-                console.log(`${interaction.customId} was submitted!`);
-                const favoriteColor = interaction.fields.getTextInputValue('favorateColor');
-                const reason = interaction.fields.getTextInputValue('reason');
-                console.log({ favoriteColor, reason });
-                interaction.reply({ content: `Your favorate color is ${favoriteColor} and your reason is ${reason}` });
-            })
-            .catch(console.error);
+        const confirmation = await interaction.awaitModalSubmit({ filter, time: 15_000 })
+        console.log(`${confirmation.customId} was submitted!`);
+        const favoriteColor = confirmation.fields.getTextInputValue('favoriteColor');
+        const reason_reply = confirmation.fields.getTextInputValue('reason');
+        console.log({ favoriteColor, reason_reply });
+        await confirmation.reply({ content: `Your favorite color is ${favoriteColor} and your reason is ${reason_reply}` });
     },
 };

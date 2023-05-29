@@ -45,7 +45,7 @@ module.exports = {
         const hour = interaction.options.getInteger('hour');
         const minute = interaction.options.getInteger('minute');
         const second = interaction.options.getInteger('second');
-        const timeLeft = (5 - stone) * 4 * 3600 * 1000 + timeToMicroSeconds(hour, minute, second);
+        const timeLeft = (4 - stone) * 4 * 3600 * 1000 + timeToMicroSeconds(hour, minute, second);
         const finishTime = new Date(timeStamp + timeLeft);
 
         if (now.getDate() === finishTime.getDate())
