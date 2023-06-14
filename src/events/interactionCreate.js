@@ -60,7 +60,7 @@ module.exports = {
 			}
 		}
 
-		if (interaction.isUserContextMenuCommand())
+		if (interaction.isContextMenuCommand())
 		{
 			const command = interaction.client.commands.get(interaction.commandName);
 
