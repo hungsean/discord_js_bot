@@ -17,7 +17,8 @@ dotenv.config();
 // 讀取.env檔案
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-// 生成機器人的實體
+
+
 
 client.commands = new Collection();
 client.cooldowns = new Collection();
@@ -54,6 +55,7 @@ for (const file of eventFiles) {
 	}
 	console.log(`${event.name} => Events`);
 }
+
 
 
 client.login(process.env.TOKEN);
