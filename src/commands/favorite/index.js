@@ -10,7 +10,7 @@ module.exports = {
             .setCustomId('modal')
             .setTitle('Favorite Things');
 
-        const favorateColor = new TextInputBuilder()
+        const favoriteColor = new TextInputBuilder()
             .setCustomId('favoriteColor')
             .setLabel('Favorite Color')
             .setPlaceholder('Input your favorite color.')
@@ -25,7 +25,7 @@ module.exports = {
             .setRequired(true)
             .setStyle(TextInputStyle.Paragraph);
 
-        const firstRow = new ActionRowBuilder().addComponents(favorateColor);
+        const firstRow = new ActionRowBuilder().addComponents(favoriteColor);
         const secondRow = new ActionRowBuilder().addComponents(reason);
 
         modal.addComponents(firstRow, secondRow);
@@ -35,9 +35,9 @@ module.exports = {
         const filter = (interaction) => interaction.customId === 'modal';
         const confirmation = await interaction.awaitModalSubmit({ filter, time: 15_000 })
         console.log(`${confirmation.customId} was submitted!`);
-        const favoriteColor = confirmation.fields.getTextInputValue('favoriteColor');
+        const favoriteColor_reply = confirmation.fields.getTextInputValue('favoriteColor');
         const reason_reply = confirmation.fields.getTextInputValue('reason');
-        console.log({ favoriteColor, reason_reply });
-        await confirmation.reply({ content: `Your favorite color is ${favoriteColor} and your reason is ${reason_reply}` });
+        // console.log({ favoriteColor, reason_reply });
+        await confirmation.reply({ content: `Your favorite color is ${favoriteColor_reply} and your reason is ${reason_reply}` });
     },
 };
