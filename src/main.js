@@ -16,7 +16,14 @@ const dotenv = require('dotenv');
 dotenv.config();
 // 讀取.env檔案
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ 
+	intents: [
+		GatewayIntentBits.Guilds, 
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.GuildMessageReactions,
+		GatewayIntentBits.MessageContent
+	] 
+});
 
 
 
