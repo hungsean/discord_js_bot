@@ -5,9 +5,10 @@ module.exports = {
 		.setName('react')
 		.setDescription('React me!'),
 	async execute(interaction) {
-		const reactMessages = await interaction.reply('Please reply on me!');
+        await interaction.reply({ content: 'commend successful', ephemeral: true });
+		const reactMessages = await interaction.channel.send('Please reply on me!');
         reactMessages.react('👍');
         reactMessages.react('👎');
-        
+
 	},
 };
