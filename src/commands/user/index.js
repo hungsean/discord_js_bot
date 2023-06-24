@@ -1,4 +1,6 @@
-const { ContextMenuCommandBuilder, ApplicationCommandType, SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder } = require('discord.js');
+
+// contextcommandbuilder
 
 module.exports = {
 	data: new SlashCommandBuilder()
