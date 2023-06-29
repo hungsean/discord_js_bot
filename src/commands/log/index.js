@@ -13,10 +13,10 @@ module.exports = {
             subcommand
                 .setName('user')
                 .setDescription('log user')
-                .addUserOption(option =>
-                    option.setName('user')
-                        .setDescription('The user to show info about')
-                        .setRequired(true))
+                // .addUserOption(option =>
+                //     option.setName('user')
+                //         .setDescription('The user to show info about')
+                //         .setRequired(true))
                 .addStringOption(option =>
                     option.setName('property')
                         .setDescription('The user property to show info about')
@@ -37,6 +37,7 @@ module.exports = {
                             {name: 'username', value: 'username'},
                             {name: 'verified', value: 'verified'}
                         )
+                        .setRequired(true)
                 ),
         )
         .addSubcommand(subcommand =>
@@ -61,9 +62,10 @@ module.exports = {
             console.log(interaction);
             await interaction.channel.send('interaction log successful');
         }
-        if (interaction.options.getSubcommand() === 'user')
+
+        else if (interaction.options.getSubcommand() === 'user')
         {
-            const user = interaction.options.getUser('user');
+            const user = interaction.user;
             const property = interaction.options.getString('property');
             await interaction.reply('logging')
             const userProperty = user[property];
@@ -72,15 +74,15 @@ module.exports = {
             await interaction.channel.send('user log successful');
         }
 
-
-        if (interaction.options.getSubcommand() === 'channel')
+        else if (interaction.options.getSubcommand() === 'channel')
         {
             const channel = interaction.options.getChannel('channel');
             await interaction.reply('logging')
             console.log(channel);
             await interaction.channel.send('channel log successful');
         }
-        if (interaction.options.getSubcommand() === 'online')
+
+        else if (interaction.options.getSubcommand() === 'online')
         {
             await interaction.reply('logging')
             try
