@@ -16,5 +16,6 @@ module.exports = {
 		const message = await interaction.fetchReply();
 		await interaction.deleteReply();
 		console.log(message);
+		await interaction.channel.send('ping: ' + interaction.client.ws.ping + 'ms');
 	},
 };
